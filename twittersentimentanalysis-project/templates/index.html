@@ -33,8 +33,50 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+  <style>
+  	.button {
+  display: inline-block;
+  border-radius: 4px;
+  color: black;
+  background-color: white;
+  border: 2px;
+  text-align: center;
+  font-size: 15px;
+  padding: 20px;
+  width: 120px;
+  height:60px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
 
+}
+  	.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+  </style>
 </head>
+
 
 <body id="page-top">
 
@@ -68,12 +110,12 @@
         <!-- /.container-fluid -->
     </nav>
   <style>
-    .header-content{
+    /*.header-content{
         background-image: url('{% static 'ravi.png' %}'); width:400px; height:400px;
         background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
-    }
+    }*/
   </style>
     <header>
         <div class="header-content">
@@ -94,7 +136,7 @@
                     <h2 class="section-heading">Enter Topic</h2><br>
                     <form action="{%url 'polar'%}">
                    <b> <input type='text' name='query' width='500px' style="color: black;"> <br><br></b>
-                    <input type='submit' class="page-scroll btn btn-default btn-xl sr-button" value="Analyse it!"></form>
+                    <button type='submit' class="button" ><span>Analyse it!</span></form>
                 </div>
             </div>
         </div>
@@ -115,28 +157,28 @@
                     <div class="service-box">
                         <i class="fa fa-4x fa-diamond text-primary sr-icons"></i>
                         <h3>AMIT KUMAR</h3>
-                        <p class="text-muted">Roll:1513310042<br>Mob:8527312214<br>Email:ak4522912@gmail.com</p>
+                        <p class="text-muted">Roll:1513310042<br><a href="tel:+918527312214">Mob:8527312214</a><br><a href="mailto:ak4522912@gmail.com">Email:ak4522912@gmail.com</a></p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-4x fa-paper-plane text-primary sr-icons"></i>
                         <h3>ANKUR CHOUDHARY</h3>
-                        <p class="text-muted">Roll:1513310049<br>Mob:9582798141<br>Email:</p>
+                        <p class="text-muted">Roll:1513310049<br><a href="tel:+919582798141">Mob:9582798141</a><br><a href="mailto:ankurchy.144@gmail.com">Email:ankurchy.144@gmail.com</a></p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-4x fa-newspaper-o text-primary sr-icons"></i>
                         <h3>RAVI SAHITYA</h3>
-                        <p class="text-muted">Roll:1513310195<br>Mob:8809393553<br>Email:</p>
+                        <p class="text-muted">Roll:1513310167<br><a href="tel:+918809393553">Mob:8809393553</a><br><a href="mailto:ravisahitya.7@gmail.com">Email:ravisahitya.7@gmail.com</a></p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-4x fa-heart text-primary sr-icons"></i>
                         <h3>SHANU SINGH</h3>
-                        <p class="text-muted">Roll:1513310167<br>Mob:9650209307<br>Email:</p>
+                        <p class="text-muted">Roll:1513310195<br><a href="tel:+919650209307">Mob:9650209307</a><br><a href="mailto:shanukumarsingh7@gmail.com">Email:shanukumarsingh7@gmail.com</a></p>
                     </div>
                 </div>
             </div>
