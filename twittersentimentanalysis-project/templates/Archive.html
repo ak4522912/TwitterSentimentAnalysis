@@ -19,7 +19,7 @@
     <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <!-- Plugin CSS -->
     <link href="{%static 'vendor/magnific-popup/magnific-popup.css'%}" rel="stylesheet">
 
@@ -33,40 +33,53 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-<script type="text/javascript">
-window.onload = function () {
-    var chart = new CanvasJS.Chart("chartContainer",
-    {
-        theme: "light2",
-        title:{
-            text: "Tweet percentage of {{Test.query}}"
-        },      
-        data: [
-        {       
-            type: "pie",
-            showInLegend: true,
-            toolTipContent: " #percent %",
-            
-            legendText: "{indexLabel}",
-            dataPoints: [
-                {  y: {{Test.positive}}, indexLabel: "Positive" },
-                
-                {  y: {{Test.negative}}, indexLabel: "Negative" },
-                {  y: {{Test.neutral}}, indexLabel: "Neutral"},
-                
-                
-                
-            ]
-        }
-        ]
-    });
-    chart.render();
-}
-</script>
-<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js">
-    </script>    
+  <style>
+  	.button {
+  display: inline-block;
+  border-radius: 4px;
+  color: black;
+  background-color: white;
+  border: 2px;
+  text-align: center;
+  font-size: 15px;
+  padding: 20px;
+  width: 120px;
+  height:80px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
 
+}
+a:link {
+  color: white;
+}
+  	.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+  </style>
 </head>
+
 
 <body id="page-top">
 
@@ -83,19 +96,10 @@ window.onload = function () {
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <!-- <li>
-                        <a class="page-scroll" href="#about">Enter Topic</a>
+                    <li>
+                        <a class="page-scroll" href="{%url 'analyser'%}">Homepage</a>
                     </li>
-                    <li>
-                        <a class="page-scroll" href="#services">Our Team</a>
-                    </li> -->
-                    
-                    <li>
-                        <a class="page-scroll" href="#contact">Results</a>
-                    </li>
-                    <li>
-                    <a class="page-scroll" href="#Archive">Archive</a>
-                    </li> 
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -103,39 +107,52 @@ window.onload = function () {
         <!-- /.container-fluid -->
     </nav>
   <style>
-    .header-content{
+    /*.header-content{
         background-image: url('{% static 'ravi.png' %}'); width:400px; height:400px;
         background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
-    }
+    }*/
   </style>
-    <!-- <header>
+    <header>
         <div class="header-content">
             <div class="header-content-inner">
-                <h1 id="homeHeading">Analyse public sentiment for free</h1>
+                <h2 id="homeHeading">List of past results</h1>
                 <hr>
-                <p>Our webiste will help you to analyse public sentiment which you can use to devise new bussiness stratergies, keep track of political view, monitor social phenomena and much more.
-                Only limitation is your imagination <i class="em em-astonished"></i></p>
-                <a href="#about" class="btn btn-primary btn-xl page-scroll">Start analysis</a>
+                <p style="font-family: 'Roboto', sans-serif;">
+                {% for file in file_list %}
+                  <a href="/static/archive/{{file}}">{{file}}</a><br><br>
+                   {% endfor %}
+            </p>
             </div>
         </div>
-    </header> -->
+    </header>
 
-    <!-- <section class="bg-primary" id="about"> -->
-        <!-- <div class="container">
+    <!-- <section class="bg-primary" id="about">
+        <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <h2 class="section-heading">Enter Topic</h2><br>
+                    <h2 class="section-heading">Enter topic and choose no. of tweets</h2><br>
                     <form action="{%url 'polar'%}">
-                   <b> <input type='text' name='query' width='500px' style="color: black;"> <br><br></b>
-                    <input type='submit' class="page-scroll btn btn-default btn-xl sr-button" value="Analyse it!"></form>
+                   <b>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                      &nbsp &nbsp &nbsp &nbsp 
+                   	<input type='text' name='query' width='500px' style="color: black;">&nbsp &nbsp</input>
+                 <div class="btn-group">
+               <select class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id='select' name='select' name='count'>
+                            
+                    	<option value='10' selected="selected">10</option>
+                    	<option value ='50'>50</option>
+                    	<option value='100'>100</option>                    	
+                    </select></div>
+                    <br><br></b>
+                    <button type='submit' class="button" ><span>Analyse it!</span> 
+                    </form>
                 </div>
             </div>
-        </div> -->
-    <!-- </section> -->
+        </div>
+    </section>
 
-    <!-- <section id="services">
+    <section id="services">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -150,35 +167,35 @@ window.onload = function () {
                     <div class="service-box">
                         <i class="fa fa-4x fa-diamond text-primary sr-icons"></i>
                         <h3>AMIT KUMAR</h3>
-                        <p class="text-muted">Roll:1513310042<br>Mob:8527312214<br>Email:ak4522912@gmail.com</p>
+                        <p class="text-muted">Roll:1513310042<br><a href="tel:+918527312214">Mob:8527312214</a><br><a href="mailto:ak4522912@gmail.com">Email:ak4522912@gmail.com</a></p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-4x fa-paper-plane text-primary sr-icons"></i>
                         <h3>ANKUR CHOUDHARY</h3>
-                        <p class="text-muted">Roll:1513310049<br>Mob:9582798141<br>Email:</p>
+                        <p class="text-muted">Roll:1513310049<br><a href="tel:+919582798141">Mob:9582798141</a><br><a href="mailto:ankurchy.144@gmail.com">Email:ankurchy.144@gmail.com</a></p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-4x fa-newspaper-o text-primary sr-icons"></i>
                         <h3>RAVI SAHITYA</h3>
-                        <p class="text-muted">Roll:1513310195<br>Mob:8809393553<br>Email:</p>
+                        <p class="text-muted">Roll:1513310167<br><a href="tel:+918809393553">Mob:8809393553</a><br><a href="mailto:ravisahitya.7@gmail.com">Email:ravisahitya.7@gmail.com</a></p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-4x fa-heart text-primary sr-icons"></i>
                         <h3>SHANU SINGH</h3>
-                        <p class="text-muted">Roll:1513310167<br>Mob:9650209307<br>Email:</p>
+                        <p class="text-muted">Roll:1513310195<br><a href="tel:+919650209307">Mob:9650209307</a><br><a href="mailto:shanukumarsingh7@gmail.com">Email:shanukumarsingh7@gmail.com</a></p>
                     </div>
                 </div>
             </div>
         </div>
-    </section> -->
+    </section>
 
-    <!-- <section class="no-padding" id="portfolio">
+    <section class="no-padding" id="portfolio">
         <div class="container-fluid">
             <div class="row no-gutter popup-gallery">
                 <div class="col-lg-4 col-sm-6">
@@ -259,8 +276,8 @@ window.onload = function () {
                 </div>
             </div>
         </div>
-    </section> -->
-
+    </section>
+ -->
     <aside class="bg-dark">
         <div class="container text-center">
             <div class="call-to-action">
@@ -270,29 +287,14 @@ window.onload = function () {
         </div>
     </aside>
 
-    <section id="contact">
+    <!-- <section id="contact">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <h2 class="section-heading">Results</h2>
+                    <h2 class="section-heading">App coming soon!</h2>
                     <hr class="primary">
-                 
-
-<div id="chartContainer" style="height: 500px; width: 100%;"></div>
-
-                    <p style="color:green;">
-                        <br><br>
-                        Positive tweets<br><br>
-{% for word in Test.list1 %}
-{{word}}<br><br>
-{%endfor%}</p>      <p style="color:red;">
-                        Negative tweets<br><br>
-{% for word in Test.list2 %}
-{{word}}<br><br>
-{%endfor%}
-
-                    </p>
-                </div>
+                    <p>Wait for it!</p>
+                </div> -->
                 <!-- div class="col-lg-4 col-lg-offset-2 text-center">
                     <i class="fa fa-phone fa-3x sr-contact"></i> -->
                     <!-- <p>123-456-6789</p> -->
@@ -304,15 +306,7 @@ window.onload = function () {
             </div>
         </div>
     </section>
-    <section id='Archive'>
-    <aside class="bg-dark">
-        <div class="container text-center">
-            <div class="call-to-action">
-                <h2>Check past results </h2>
-                <a href="{%url 'archive'%}" class="btn btn-default btn-xl sr-button">Visit Archive</a>
-            </div>
-        </div>
-    </aside>
+
     <!-- jQuery -->
     <script src="{%static 'vendor/jquery/jquery.min.js'%}"></script>
 
@@ -330,10 +324,3 @@ window.onload = function () {
 </body>
 
 </html>
-
-  
-    
-
-
-
- 

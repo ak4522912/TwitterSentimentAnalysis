@@ -44,7 +44,7 @@
   font-size: 15px;
   padding: 20px;
   width: 120px;
-  height:60px;
+  height:80px;
   transition: all 0.5s;
   cursor: pointer;
   margin: 5px;
@@ -133,10 +133,21 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <h2 class="section-heading">Enter Topic</h2><br>
+                    <h2 class="section-heading">Enter topic and choose no. of tweets</h2><br>
                     <form action="{%url 'polar'%}">
-                   <b> <input type='text' name='query' width='500px' style="color: black;"> <br><br></b>
-                    <button type='submit' class="button" ><span>Analyse it!</span></form>
+                   <b>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                      &nbsp &nbsp &nbsp &nbsp 
+                   	<input type='text' name='query' width='500px' style="color: black;">&nbsp &nbsp</input>
+                 <div class="btn-group">
+               <select class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id='select' name='select' name='count'>
+                            
+                    	<option value='10' selected="selected">10</option>
+                    	<option value ='50'>50</option>
+                    	<option value='100'>100</option>                    	
+                    </select></div>
+                    <br><br></b>
+                    <button type='submit' class="button" ><span>Analyse it!</span> 
+                    </form>
                 </div>
             </div>
         </div>

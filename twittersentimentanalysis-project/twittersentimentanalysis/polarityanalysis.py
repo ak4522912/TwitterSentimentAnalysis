@@ -1,7 +1,18 @@
 import re 
-import tweepy 
+import tweepy
+import csv
+import datetime
 from tweepy import OAuthHandler 
 from textblob import TextBlob 
+class Test:
+    def __init__(self,query="",count=0,list1=[''],list2=[''],positive=0,negative=0,neutral=0):
+        self.query =query
+        self.count = count
+        self.list1=list1
+        self.list2=list2
+        self.positive=positive
+        self.negative=negative
+        self.neutral=neutral
 
 class TwitterClient(object): 
 	''' 
@@ -12,10 +23,10 @@ class TwitterClient(object):
 		Class constructor or initialization method. 
 		'''
 		# keys and tokens from the Twitter Dev Console 
-		consumer_key = ''
-		consumer_secret = ''
-		access_token = ''
-		access_token_secret = ''
+		consumer_key = 'Yb4MjUhlfaNH9An33iB8bAMnD'
+		consumer_secret = 'Lbo4SzscCpYTb48OM5WcE1YLs0SsSUvEKXu3qeQJL1PTv1XaUq'
+		access_token = '1103368213927215111-fgkLHPZ8DxQPyFHckZzlhBUbJgR2oD'
+		access_token_secret = 'IpuGfIIj9SPkdf1VL7vLgHcFCcqQqmkcioA9F23WOC95p'
 
 		# attempt authentication 
 		try: 
@@ -40,6 +51,7 @@ class TwitterClient(object):
 		Utility function to classify sentiment of passed tweet 
 		using textblob's sentiment method 
 		'''
+
 		# create TextBlob object of passed tweet text 
 		analysis = TextBlob(self.clean_tweet(tweet)) 
 		# set sentiment 
@@ -50,7 +62,8 @@ class TwitterClient(object):
 		else: 
 			return 'negative'
 
-	def get_tweets(self, query, count = 10): 
+
+	def get_tweets(self, query, count):
 		''' 
 		Main function to fetch tweets and parse them. 
 		'''
@@ -80,49 +93,78 @@ class TwitterClient(object):
 					tweets.append(parsed_tweet) 
 
 			# return parsed tweets 
-			return tweets 
+			return tweets
 
 		except tweepy.TweepError as e: 
 			# print error (if any) 
 			print("Error : " + str(e)) 
+def csvout2(Test):
+	file_name = "archive/Sentiment_Analysis_of__Tweets_About_{}_at_{}.csv".format(Test.query,datetime.datetime.now().date())
 
-def main(query): 
+	with open(file_name, 'w', newline='') as csvfile:
+   		csv_writer = csv.DictWriter(
+       	f=csvfile,
+       	fieldnames=["Tweet", "Sentiment"]
+  		 )
+   		csv_writer.writeheader()
+   		for tweet in Test.list1:
+   			csv_writer.writerow({
+           		'Tweet': tweet,
+           		'Sentiment': 'positive'
+       })
+def main(query,count): 
 	# creating object of TwitterClient Class 
 	api = TwitterClient() 
-	# calling function to get tweets 
-	tweets = api.get_tweets(query, count = 50)
-	list1=['']
+	# calling function to get tweets
+	
+	tweets = api.get_tweets(query, count)
 
-	# picking positive tweets from tweets 
-	ptweets = [tweet for tweet in tweets if tweet['sentiment'] == 'positive'] 
 
-	# percentage of positive tweets 
-	str1=("Positive tweets percentage: {} %".format(round(100*len(ptweets)/len(tweets),2)))
-	list1.append(str1)
-	# picking negative tweets from tweets 
-	ntweets = [tweet for tweet in tweets if tweet['sentiment'] == 'negative'] 
-	# percentage of negative tweets 
-	str1=("Negative tweets percentage: {} %".format(round(100*len(ntweets)/len(tweets),2)))
-	list1.append(str1)
+
+
+	list1=[]
+
+
+
+	# picking positive tweets from tweets
+	ptweets = [tweet for tweet in tweets if tweet['sentiment'] == 'positive']
+
+	# percentage of positive tweets
+	pptweets=round(100*len(ptweets)/len(tweets),2)
+	# picking negative tweets from tweets
+	ntweets = [tweet for tweet in tweets if tweet['sentiment'] == 'negative']
+
+	# percentage of negative tweets
+	list2=[]
+	pntweets = round(100 * len(ntweets) / len(tweets), 2)
+
+
 	# percentage of neutral tweets
-	pntweets=[x for x in tweets if x not in ptweets]
-	pntweets=[x for x in pntweets if x not in ntweets]
 
-	str1=("Neutral tweets percentage: {}%".format(round(100*len(pntweets)/len(tweets),2)))
-	list1.append(str1)
+	netweets=[x for x in tweets if x not in ptweets]
+	netweets=[x for x in netweets if x not in ntweets]
+	pnetweets = round(100 * len(netweets) / len(tweets), 2)
 
-	# printing first 5 positive tweets 
-	str1=("\n\nPositive tweets:")
-	list1.append(str1)
-	for tweet in ptweets[:20]:
+
+
+	# printing first 5 positive tweets
+	for tweet in ptweets:
 		list1.append(tweet['text'])
 
-	# printing first 5 negative tweets 
-	str1=("\n\nNegative tweets:")
-	list1.append(str1)
-	for tweet in ntweets[:20]:
-		list1.append(tweet['text'])
-	return list1
+	# printing first 5 negative tweets
+
+
+	for tweet in ntweets:
+		list2.append(tweet['text'])
+
+
+
+
+
+	return Test(query,count,list1,list2,pptweets,pntweets,pnetweets)
+
+
 if __name__ == "__main__": 
 	# calling main function 
-	main(query)
+	main(query,count)
+

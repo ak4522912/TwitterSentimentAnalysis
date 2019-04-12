@@ -21,4 +21,5 @@ urlpatterns = [
     
     path('polar/',views.polar, name='polar'),
     path('',views.analyser, name='analyser'),
+    path('archive/',views.archive, name='archive')
 ]
